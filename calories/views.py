@@ -1,14 +1,21 @@
-from django.shortcuts import render,redirect
-from django.contrib.auth import authenticate,login,logout
+from datetime import date, datetime, timedelta
+
 from django.contrib import messages
+from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
-from .forms import SelectFoodForm,AddFoodForm,CreateUserForm,ProfileForm
-from .models import *
-from datetime import timedelta
+from django.shortcuts import redirect, render
 from django.utils import timezone
-from datetime import date
-from datetime import datetime
+
 from .filters import FoodFilter
+from .forms import AddFoodForm, CreateUserForm, ProfileForm, SelectFoodForm
+from .models import *
+from .models import NewUser
+
+from django.http import HttpResponse
+from django.template.loader import get_template
+from django.conf import settings
+import pdfkit
+
 
 #home page view
 @login_required(login_url='login')
@@ -170,7 +177,24 @@ def ProfilePage(request):
 
 	#querying all records for the last seven days 
 	some_day_last_week = timezone.now().date() -timedelta(days=7)
-	records=Profile.objects.filter(date__gte=some_day_last_week,date__lt=timezone.now().date(),person_of=request.user)
+	records=Profile.objects.filter(date__gte=some_day_last_week,date__lt=timezone.now().date(),person_of=request.user).order_by('-date')
 
 	context = {'form':form,'food_items':food_items,'records':records}
 	return render(request, 'profile.html',context)
+
+@login_required
+def report(request): 
+    users = NewUser.objects.all() 
+    context = {'users': users} 
+    return render(request, 'report.html', context) 
+
+def generate_report(request):
+    users = request.user
+    # Generate the report using user data
+    report_html = get_template('report.html').render({'users': users})
+    # Convert the HTML report to a PDF file
+    report_pdf = pdfkit.from_string(report_html, False)
+    # Create an HTTP response that sends the PDF file as a download
+    response = HttpResponse(report_pdf, content_type='application/pdf')
+    response['Content-Disposition'] = 'attachment; filename="user_report.pdf"'
+    return response

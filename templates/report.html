@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <table> 
+        <thead> 
+            <tr> 
+                <th>username</th>
+                <th>firstname</th> 
+                <th>lastname</th> 
+                <th>Email</th> 
+                <th>Date Registered</th> 
+                <th>calorie_goal</th> 
+            </tr> 
+        </thead> 
+        <tbody> 
+            {% for user in NewUser %} 
+            <tr> 
+                <td>{{ user.username }}</td>
+                <td>{{ user.firstname }}</td>
+                <td>{{ user.lastname }}</td>
+                <td>{{ user.email }}</td>
+                <td>{{ user.date_registered }}</td>
+                <td>{{ user.calorie_goal }}</td>
+            </tr> 
+            {% endfor %} 
+        </tbody> 
+
+    </table>
+    <script>
+        $(document).ready(function() { 
+            setInterval(function() { 
+                $.get('/report/', function(data) { 
+                    $('tbody').html(data); 
+                }); 
+            }, 5000); // update every 5 seconds 
+        });  
+    </script>
+{% endblock %}

@@ -1,9 +1,19 @@
-from django.db import models
-from django.contrib.auth.models import User
-
 from datetime import date
 
+from django.contrib.auth.models import User
+from django.db import models
+
 # Create your models here.
+     
+class NewUser(models.Model): 
+    username = models.CharField(max_length=200, null=False)
+    firstname= models.CharField(max_length=200, null=False)
+    lastname= models.CharField(max_length=200, null=False)
+    email = models.EmailField() 
+    date_registered = models.DateTimeField(auto_now_add=True)
+    calorie_goal = models.PositiveIntegerField(default=0)
+    
+	
 
 
 class Food(models.Model):
@@ -53,3 +63,21 @@ class PostFood(models.Model):
     food = models.ForeignKey(Food,on_delete=models.CASCADE)
     calorie_amount = models.FloatField(default=0,null=True,blank=True)
     amount = models.FloatField(default=0)
+    
+
+class ProfileReport(models.Model):
+    profile = models.ForeignKey(Profile, on_delete=models.CASCADE)
+    date = models.DateField(auto_now_add=True)
+    calorie_count = models.FloatField(default=0)
+    calorie_goal = models.PositiveIntegerField(default=0)
+    foods_selected = models.TextField()
+
+    def save(self, *args, **kwargs):
+        self.calorie_count = self.profile.total_calorie
+        self.calorie_goal = self.profile.calorie_goal
+        foods = [f.name for f in self.profile.all_food_selected_today.all()]
+        self.foods_selected = ', '.join(foods)
+        super(ProfileReport, self).save(*args, **kwargs)
+
+    def __str__(self):
+        return f"{self.profile.person_of.username} - {self.date}"

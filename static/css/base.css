@@ -1,34 +1,43 @@
-a {
+:root {
+  --primary-color: #0074D9; /* blue */
+  --secondary-color: #2ECC40; /* green */
+  --text-color: #fff; /* dark gray */
+  --background-color: #F2F2F2; /* light gray */
+}
+
+
+
+fa {
   text-decoration:none !important;
 }
 
 .logo {
-  font-family: 'Lobster', cursive;
+  font-family: 'Times New Roman', Times, serif;
   padding-top:0px;
   padding-bottom:12px;
   font-size: 60px;
-  color: #054613;  /* fallback for old browsers */
+  color: var(--background-color);  /* fallback for old browsers */
   color: -webkit-linear-gradient(to right, #00C689, #009E7F);  /* Chrome 10-25, Safari 5.1-6 */
   color: linear-gradient(to right, #00C689, #009E7F); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+  float: left;
 }
 
-#navbar-primary.navbar-default .navbar-nav {
-  width: 100%;
-  text-align: center;
-  background: #0a4405;  /* fallback for old browsers */
-  background: -webkit-linear-gradient(to right, #02C39A, #00A896);  /* Chrome 10-25, Safari 5.1-6 */
-  background: linear-gradient(to right, #02C39A, #00A896); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
-  border-radius: 100px ;
+.fit{
+  color: var(--background-color);
 }
 
-#navbar-primary.navbar-default .navbar-nav > li {
-  display: inline-block;
-  float: none;
-  vertical-align: top;
-  padding-top: 8px;
-  padding-bottom: 8px;
-  font-family: 'Grandstander', cursive
+header {
+	background: #0a4405;  /* fallback for old browsers */
+	color: #fff;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	padding: 20px;
+  top: 0;
+  left: 0;
+  margin: 0;
 }
+
 
 #navbar-primary.navbar-default .navbar-nav > li > a {
   padding-left: 30px;
@@ -65,28 +74,41 @@ ul.navbar-nav .nav-item:after {
 
 @import url('https://fonts.googleapis.com/css?family=Poppins');
 
-
-
-
-body {
-  font-family: Arial;
-  background-color: #0f4103;
-  padding: 50px;
+  *{
+   margin: 0;
+   padding: 0;
+   box-sizing: border-box;
 }
+
+  body {
+    background-color: var(--background-color);
+    color: var(--text-color);
+    font-family: 'Times New Roman', Times, serif;
+    background-image: url('media/image.png');
+    background-size: cover;
+    background-position: center;
+    padding: 50px;
+    box-sizing: border-box;
+    width: 100%;
+    height: 100%;
+  }
 
 .login {
   margin: 20px auto;
   width: 300px;
+  background-color: #2ECC40;
+
 }
 .login-screen {
-background-color: #FFF;
+background: var(--secondary-color);
+color: white;
 padding: 20px;
 border-radius: 5px
 }
 
 .app-title {
 text-align: center;
-color: #777;
+color:  var(--text-color);
 }
 
 .login-form {
@@ -147,9 +169,10 @@ background: linear-gradient(to right, #0e7528,#0f5e04); /* W3C, IE 10+/ Edge, Fi
 }
 
 #username {
-font-family: 'Pacifico', cursive;
+font-family: 'Times New Roman', Times, serif;
 padding-top:0px;
 padding-bottom:30px;
+color: var(--background-color);
 }
 
 #username sub {
@@ -253,30 +276,27 @@ th {
 
 
 .card{
-  font-family: 'Grandstander', cursive;
-font-family: 'Ubuntu', sans-serif;
+  font-family: 'Times New Roman', Times, serif;
 }
 
 .headline {
-  font-family: 'Permanent Marker', cursive;
+  font-family: 'Times New Roman', Times, serif;
   font-size: 36px;
   font-weight: bold;
   padding-top: 20px;
-  color: #2ECC71; /* fallback for old browsers */
-  color: -webkit-linear-gradient(to right, #0e7528, #0f5e04); /* Chrome 10-25, Safari 5.1-6 */
-  color: linear-gradient(to right, #0e7528, #0f5e04); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+  color: var(--background-color); /* fallback for old browsers */
 }
 
 .profile-text {
-  color:white;
-  font-family: 'Lobster', cursive;
+  color:var(--background-color);
+  font-family: 'Times New Roman', Times, serif;
 
 }
 
 .table {
-  background-color: #F5F5F5;
-  color: #2E8B57;
-  font-family: 'Open Sans', sans-serif;
+  background-color: var(--background-color);
+  color: var(--background-color);
+  font-family: 'Times New Roman', Times, serif;
 }
 
 table.table-bordered > thead > tr > th {
@@ -295,8 +315,8 @@ table.table-bordered > tbody > tr > td {
 
 
 .form-labels {
-  font-family: Arial, sans-serif;
-  color: green;
+  font-family: 'Times New Roman', Times, serif;
+  color: var(--background-color);
 }
 
 
