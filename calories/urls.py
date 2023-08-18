@@ -8,7 +8,6 @@ from .views import (
     RegisterPage,
     add_food,
     delete_food,
-    report,
     select_food,
     update_food,
 )
@@ -23,5 +22,4 @@ urlpatterns = [
 	path('delete_food/<str:pk>/',delete_food,name='delete_food'),
 	path('register/',RegisterPage,name='register'),
 	path('profile/',ProfilePage,name='profile'),
-    path('report/', report, name='report'),
 ]

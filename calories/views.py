@@ -1,21 +1,14 @@
-from datetime import date, datetime, timedelta
-
+from django.shortcuts import render,redirect
+from django.contrib.auth import authenticate,login,logout
 from django.contrib import messages
-from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
-from django.shortcuts import redirect, render
-from django.utils import timezone
-
-from .filters import FoodFilter
-from .forms import AddFoodForm, CreateUserForm, ProfileForm, SelectFoodForm
+from .forms import SelectFoodForm,AddFoodForm,CreateUserForm,ProfileForm
 from .models import *
-from .models import NewUser
-
-from django.http import HttpResponse
-from django.template.loader import get_template
-from django.conf import settings
-import pdfkit
-
+from datetime import timedelta
+from django.utils import timezone
+from datetime import date
+from datetime import datetime
+from .filters import FoodFilter
 
 #home page view
 @login_required(login_url='login')
@@ -23,15 +16,16 @@ def HomePageView(request):
 
 	#taking the latest profile object
 	calories = Profile.objects.filter(person_of=request.user).last()
-	calorie_goal = calories.calorie_goal
 	
 	#creating one profile each day
-	if date.today() > calories.date:
+	if calories is None:
 		profile=Profile.objects.create(person_of=request.user)
 		profile.save()
+		calories = profile
+		calorie_goal = 0
 
-	calories = Profile.objects.filter(person_of=request.user).last()
-		
+	else:
+		calorie_goal = calories.calorie_goal
 	# showing all food consumed present day
 
 	all_food_today=PostFood.objects.filter(profile=calories)
@@ -177,24 +171,7 @@ def ProfilePage(request):
 
 	#querying all records for the last seven days 
 	some_day_last_week = timezone.now().date() -timedelta(days=7)
-	records=Profile.objects.filter(date__gte=some_day_last_week,date__lt=timezone.now().date(),person_of=request.user).order_by('-date')
+	records=Profile.objects.filter(date__gte=some_day_last_week,date__lt=timezone.now().date(),person_of=request.user)
 
 	context = {'form':form,'food_items':food_items,'records':records}
 	return render(request, 'profile.html',context)
-
-@login_required
-def report(request): 
-    users = NewUser.objects.all() 
-    context = {'users': users} 
-    return render(request, 'report.html', context) 
-
-def generate_report(request):
-    users = request.user
-    # Generate the report using user data
-    report_html = get_template('report.html').render({'users': users})
-    # Convert the HTML report to a PDF file
-    report_pdf = pdfkit.from_string(report_html, False)
-    # Create an HTTP response that sends the PDF file as a download
-    response = HttpResponse(report_pdf, content_type='application/pdf')
-    response['Content-Disposition'] = 'attachment; filename="user_report.pdf"'
-    return response

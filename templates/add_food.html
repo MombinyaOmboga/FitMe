@@ -1,65 +1,65 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<div class="container">
-<div class="row">
-    <div class="col-lg-6">
-    <div class="login">
-        <div class="login-screen">
-            <div class="app-title">
-                <h1 class="headline">Select Food</h1>
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-lg-6">
+            <div class="card">
+                <div class="card-header bg-primary text-white">
+                    <h2 class="card-title">Select Food</h2>
+                </div>
+                <div class="card-body">
+                    <div class="card-body position-relative"> <!-- Add 'position-relative' class -->
+                        <form method="POST" action="" class="form-flex">
+                            {% csrf_token %}
+                            {% for field in form %}
+                            <div class="form-group">
+                                <label for="{{ field.id_for_label }}" class="form-labels">{{ field.label }}</label>
+                                {{ field }}
+                            </div>
+                            {% endfor %}
+                            <button class="btn btn-primary mt-10 position-absolute" style="bottom: 0;" type="submit">Select</button>
+                        </form>
+                    </div>
+                </div>
             </div>
-
-            <form method="POST" action="" class="login-form form-inline">
-              {% csrf_token %}
-              
-                {% for field in form %}
-                <h5 class="form-labels">
-                {{ field.label }}
-                </h5>
-                {{ field }}
-                 
-                {% endfor %}
-           
-                <input class="btn mt-2" type="submit" value="select">
-
-            </form>
-           
         </div>
-        
-    </div>
-    </div>
-    <div class="col-lg-6 ">
-    <div class="login">
-        <div class="login-screen">
-              <form method="get">
-                  <h1 class="headline">{{ myFilter.form }}</h1>
-                  <button class="btn mt-2" type="submit">Search </button>
-              </form> 
+        <div class="col-lg-6">
+            <div class="card">
+                <div class="card-header bg-primary text-white">
+                    <h2 class="card-title">Search Food</h2>
+                </div>
+                <div class="card-body">
+                    <form method="get">
+                        <div class="form-group">
+                            <label for="{{ myFilter.form.id_for_label }}" class="form-labels">{{ myFilter.form.label }}</label>
+                            {{ myFilter.form }}
+                        </div>
+                        <button class="btn btn-primary mt-3" type="submit">Search</button>
+                    </form>
+                </div>
+            </div>
         </div>
     </div>
-
-        <h1 class="headline"> All Food Items </h1>
-        <table class="table table-bordered text-center mt-3">
-            <thead class="thead-dark">
-                <tr>
-                    <th scope="col">Food Name</th>
-                    <th scope="col">Calories</th>
-                    <th scope="col">Quantity</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for food in food_items %}
-                <tr>
-                    <td>{{ food.name }}</td>
-                    <td>{{ food.calorie }}</td>
-                    <td>{{ food.quantity }}</td>
-                    
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>  
-    </div>
-</div>
+    
+    <h2 class="mt-5">All Food Items</h2>
+    <table class="table table-bordered table-striped mt-3">
+        <thead class="bg-primary text-white">
+            <tr>
+                <th scope="col">Food Name</th>
+                <th scope="col">Calories</th>
+                <th scope="col">Quantity</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for food in food_items %}
+            <tr>
+                <td>{{ food.name }}</td>
+                <td>{{ food.calorie }}</td>
+                <td>{{ food.quantity }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
 </div>
 {% endblock content %}
